@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "221667525181",
+    "project_id": "rdp-todo",
+    "storage_bucket": "rdp-todo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221667525181:android:68c7f7d258b76a72336054",
+        "android_client_info": {
+          "package_name": "com.example.basiclayout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "221667525181-t5o804msnqii30s0no8tu0pc2m5pdhul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyfPjsnhpGYbkg3hVMacEqXFFRU1o0MtY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "221667525181-t5o804msnqii30s0no8tu0pc2m5pdhul.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "221667525181-cbknqj51oc2bjtkqdf43e3rksvog5k42.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.basiclayout"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
