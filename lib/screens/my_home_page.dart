@@ -15,9 +15,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  final List<String> tasks = <String>[
-    'Start a new task here...',
-  ];
+  final List<String> tasks = <String>[];
 
   final List<bool> checkboxes = List.generate(8, (index) => false);
 
@@ -75,42 +73,71 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  // Asynchronous function to fetch tasks data from Firestore
   Future<void> fetchTasksFromFirestore() async {
+    // Get a reference to the 'tasks' collection in Firestore
     CollectionReference tasksCollection = db.collection('tasks');
+
+    // Fetch the documents (tasks) from the collection
     QuerySnapshot querySnapshot = await tasksCollection.get();
 
+    // Create an empty list to store fetched task names
     List<String> fetchedTasks = [];
+
+    // Loop through each document (task) in the query snapshot
     for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
+      // Get the task name from the document's data
       String taskName = docSnapshot.get('name');
+
+      // Get the completion status of the task
       bool completed = docSnapshot.get('completed');
+
+      // Add the task name to the list of fetched tasks
       fetchedTasks.add(taskName);
     }
 
+    // Update the state to reflect the fetched tasks
     setState(() {
-      tasks.clear();
-      tasks.addAll(fetchedTasks);
+      tasks.clear(); // Clear the existing tasks list
+      tasks.addAll(fetchedTasks); // Add the fetched tasks to the list
     });
   }
 
+  // Asynchronous function to update the completion status of a task in Firestore
   Future<void> updateTaskCompletionStatus(
       String taskName, bool completed) async {
+    // Get a reference to the 'tasks' collection in Firestore
     CollectionReference tasksCollection = db.collection('tasks');
 
+    // Query Firestore for documents (tasks) with the given task name
     QuerySnapshot querySnapshot =
         await tasksCollection.where('name', isEqualTo: taskName).get();
+
+    // If a matching task document is found
     if (querySnapshot.size > 0) {
+      // Get a reference to the first matching document
       DocumentSnapshot documentSnapshot = querySnapshot.docs[0];
+
+      // Update the 'completed' field of the document with the new completion status
       await documentSnapshot.reference.update({'completed': completed});
     }
 
+    // Update the state to reflect the new completion status in the UI
     setState(() {
-      checkboxes[tasks.indexWhere((task) => task == taskName)] = completed;
+      // Find the index of the task in the tasks list
+      int taskIndex = tasks.indexWhere((task) => task == taskName);
+
+      // Update the corresponding checkbox value in the checkboxes list
+      checkboxes[taskIndex] = completed;
     });
   }
 
+  // Override the initState method of the State class
   @override
   void initState() {
     super.initState();
+
+    // Call the function to fetch tasks from Firestore when the widget is initialized
     fetchTasksFromFirestore();
   }
 
